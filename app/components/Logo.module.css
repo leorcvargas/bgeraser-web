@@ -1,0 +1,33 @@
+.logo-text {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.logo-subtext {
+  font-size: 1.25rem;
+  line-height: 2rem;
+}
+
+/*
+ * I'm unable to rollback the gradient color I applied in GIMP.
+ * This class exists just because of my stupidity.
+ * */
+.logo-filter {
+  filter: hue-rotate(277deg) brightness(3.5);
+}
+
+.logo-loading {
+  animation-name: spin;
+  animation-duration: 2500ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
