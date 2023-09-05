@@ -3,15 +3,23 @@
   border-bottom-right-radius: 0 !important;
   transition: linear;
   transition-duration: 300ms;
+  background: rgb(183, 63, 251);
+  background: linear-gradient(
+    87deg,
+    rgba(183, 63, 251, 0.4517045454545454) 0%,
+    rgba(252, 70, 107, 0.47443181818181823) 100%
+  );
 }
 
 .bg-active {
   filter: saturate(2.5);
 }
 
-.button-area {
-  backdrop-filter: blur(5px);
-  background-color: rgb(50 50 50 / 0.7) !important;
+.card-button {
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-top: none !important;
+  width: 100%;
 }
 
 .drag-cover {
@@ -24,4 +32,12 @@
   bottom: 0px;
   left: 0px;
   z-index: 1;
+}
+
+.card-image {
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom: none !important;
+  transition: linear;
+  transition-duration: 300ms;
 }

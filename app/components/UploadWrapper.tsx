@@ -10,8 +10,8 @@ export const UploadWrapper: React.FC<{ children: React.ReactNode }> = ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        pt: "12rem",
         m: "auto",
+        flexGrow: 1,
       }}
     >
       <Grid container flexDirection="column" alignItems={"center"}>
