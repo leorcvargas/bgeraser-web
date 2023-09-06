@@ -98,6 +98,8 @@ export function UploadArea() {
   const handleConfirm = async () => {
     setLoading(true);
 
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
     try {
       const imageID = await createImage();
       const processID = await createProcess(imageID);
@@ -122,17 +124,15 @@ export function UploadArea() {
       });
 
       const blob = await res.blob();
+
       return blob;
     }
 
     async function pollProcess(processID: string, resolve: any, reject: any) {
       const n = window.setInterval(async () => {
-        const res = await fetch(
-          `http://localhost:8080/images/process/${processID}`,
-          {
-            method: "GET",
-          }
-        )
+        const res = await fetch(`${apiUrl}/images/process/${processID}`, {
+          method: "GET",
+        })
           .then((res) => res.json())
           .catch(reject);
 
@@ -150,7 +150,7 @@ export function UploadArea() {
 
     async function createProcess(imageID: string) {
       const res = await fetch(
-        `http://localhost:8080/images/${imageID}/process/REMOVE_BACKGROUND`,
+        `${apiUrl}/images/${imageID}/process/REMOVE_BACKGROUND`,
         {
           method: "POST",
         }
@@ -167,7 +167,7 @@ export function UploadArea() {
       const formData = new FormData();
       formData.append("images", file as Blob);
 
-      const res = await fetch("http://localhost:8080/images", {
+      const res = await fetch(`${apiUrl}/images`, {
         method: "POST",
         body: formData,
       });
@@ -194,13 +194,17 @@ export function UploadArea() {
         sx={{
           flexGrow: 1,
           minWidth: {
-            xs: 300,
-            sm: 500,
+            xs: 320,
+            sm: 640,
+          },
+          minHeight: {
+            xs: 240,
+            sm: 480,
           },
         }}
       >
         <CardOverflow>
-          <AspectRatio objectFit="cover" ratio={1}>
+          <AspectRatio objectFit="contain" ratio={1}>
             <Image
               src={result ? resultObjectURL! : file ? fileObjectURL! : ""}
               alt="image being processed"
