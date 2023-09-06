@@ -4,7 +4,7 @@ import logo from "@bgeraser/public/logo.png";
 import { Box, Grid } from "@mui/material";
 import { Rajdhani } from "next/font/google";
 import Image from "next/image";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import styles from "./Logo.module.css";
 import { LoadingContext } from "../contexts/LoadingContext";
 

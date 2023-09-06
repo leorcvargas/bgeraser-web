@@ -1,9 +1,22 @@
-import { Box, Grid } from "@mui/joy";
-import React from "react";
+"use client";
 
-export const UploadWrapper: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+import { Box, Grid } from "@mui/joy";
+import React, { useContext, useMemo } from "react";
+import { FileContext } from "../contexts/FileContext";
+import { UploadCard } from "./UploadCard";
+import { UploadConfirmCard } from "./UploadConfirmCard";
+
+export const UploadWrapper: React.FC = () => {
+  const { file } = useContext(FileContext);
+
+  const current = useMemo(() => {
+    if (!file) {
+      return <UploadCard />;
+    }
+
+    return <UploadConfirmCard />;
+  }, [file]);
+
   return (
     <Box
       sx={{
@@ -15,7 +28,7 @@ export const UploadWrapper: React.FC<{ children: React.ReactNode }> = ({
       }}
     >
       <Grid container flexDirection="column" alignItems={"center"}>
-        {children}
+        {current}
       </Grid>
     </Box>
   );
