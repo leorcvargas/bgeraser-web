@@ -7,6 +7,7 @@ import {
   CardActions,
   CardContent,
   CardCover,
+  CardOverflow,
   Grid,
   IconButton,
   Typography,
@@ -98,12 +99,12 @@ export function UploadArea() {
     setLoading(true);
 
     try {
-      const image = await createImage();
-      const process = await createProcess(image.id);
-      const resultFilename = await new Promise<string>((resolve, reject) =>
-        pollProcess(process.id, resolve, reject)
+      const imageID = await createImage();
+      const processID = await createProcess(imageID);
+      const url = await new Promise<string>((resolve, reject) =>
+        pollProcess(processID, resolve, reject)
       );
-      const resultBlob = await downloadResult(resultFilename);
+      const resultBlob = await downloadResult(url);
 
       setResult(resultBlob);
     } catch (error) {
@@ -112,9 +113,7 @@ export function UploadArea() {
       setLoading(false);
     }
 
-    async function downloadResult(resultFilename: string) {
-      const url = `http://127.0.0.1:8080/i/${resultFilename}`;
-
+    async function downloadResult(url: string) {
       const res = await fetch(url, {
         method: "GET",
         headers: {
@@ -142,7 +141,7 @@ export function UploadArea() {
         }
 
         if (res.data.finishedAt) {
-          return resolve(res.data.result.originalFilename);
+          return resolve(res.data.result.url);
         }
       }, 2000);
 
@@ -158,7 +157,7 @@ export function UploadArea() {
       );
 
       const { data } = (await res.json()) as {
-        data: { id: string };
+        data: string;
       };
 
       return data;
@@ -174,12 +173,7 @@ export function UploadArea() {
       });
 
       const { data } = (await res.json()) as {
-        data: Array<{
-          format: string;
-          originalFilename: string;
-          size: number;
-          id: string;
-        }>;
+        data: string[];
       };
 
       return data[0];
@@ -195,82 +189,72 @@ export function UploadArea() {
 
   if (file) {
     return (
-      <>
-        <Card
-          variant="outlined"
-          className={styles["card-image"]}
-          sx={{
-            flexGrow: 1,
-            width: {
-              xs: 300,
-              sm: 500,
-            },
-            height: {
-              xs: 300,
-              sm: 500,
-            },
-          }}
-        >
-          <CardCover
-            sx={{ borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }}
-          >
+      <Card
+        variant="outlined"
+        sx={{
+          flexGrow: 1,
+          minWidth: {
+            xs: 300,
+            sm: 500,
+          },
+        }}
+      >
+        <CardOverflow>
+          <AspectRatio objectFit="cover" ratio={1}>
             <Image
               src={result ? resultObjectURL! : file ? fileObjectURL! : ""}
               alt="image being processed"
-              width={500}
-              height={500}
+              layout="fill"
             />
-          </CardCover>
-        </Card>
+          </AspectRatio>
+        </CardOverflow>
 
-        <Card variant="outlined" className={styles["card-button"]}>
-          <CardContent>
-            <Grid
-              container
-              spacing={2}
-              alignItems={"center"}
-              justifyContent={"center"}
-            >
-              <Grid flexGrow={1}>
-                <IconButton variant="outlined" onClick={clear}>
-                  <UndoIcon />
-                </IconButton>
-              </Grid>
-
-              <Grid flexGrow={4}>
-                {result && !loading && (
-                  <Button
-                    variant="soft"
-                    color="neutral"
-                    startDecorator={<DownloadIcon />}
-                    type="submit"
-                    sx={{ width: "100%" }}
-                    component="a"
-                    href={resultObjectURL}
-                    download="kamui-app-result.png"
-                  >
-                    Download Image
-                  </Button>
-                )}
-                {!result && (
-                  <Button
-                    variant="soft"
-                    color="neutral"
-                    startDecorator={<UploadIcon />}
-                    onClick={handleConfirm}
-                    loading={loading}
-                    sx={{ width: "100%" }}
-                  >
-                    Remove Background
-                  </Button>
-                )}
-              </Grid>
-
-              <Grid flexGrow={2} />
+        <CardContent>
+          <Grid
+            container
+            spacing={2}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            <Grid flexGrow={1}>
+              <IconButton variant="outlined" onClick={clear}>
+                <UndoIcon />
+              </IconButton>
             </Grid>
-          </CardContent>
-        </Card>
-      </>
+
+            <Grid flexGrow={4}>
+              {result && !loading && (
+                <Button
+                  variant="soft"
+                  color="neutral"
+                  startDecorator={<DownloadIcon />}
+                  type="submit"
+                  sx={{ width: "100%" }}
+                  component="a"
+                  href={resultObjectURL}
+                  download="kamui-app-result.png"
+                >
+                  Download Image
+                </Button>
+              )}
+              {!result && (
+                <Button
+                  variant="soft"
+                  color="neutral"
+                  startDecorator={<UploadIcon />}
+                  onClick={handleConfirm}
+                  loading={loading}
+                  sx={{ width: "100%" }}
+                >
+                  Remove Background
+                </Button>
+              )}
+            </Grid>
+
+            <Grid flexGrow={2} />
+          </Grid>
+        </CardContent>
+      </Card>
     );
   }
 

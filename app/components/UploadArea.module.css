@@ -33,11 +33,3 @@
   left: 0px;
   z-index: 1;
 }
-
-.card-image {
-  border-bottom-right-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-  border-bottom: none !important;
-  transition: linear;
-  transition-duration: 300ms;
-}
