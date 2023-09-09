@@ -119,12 +119,6 @@ export function ImageProcessCard({ imageProcess }: Props) {
     return () => clearInterval(intervalID);
   }, [imageProcess.id, reset, resultImageURL, setLoading]);
 
-  console.log({
-    resultImageURL,
-    fileObjectURL,
-    imageProcess,
-  });
-
   return (
     <Box
       sx={{

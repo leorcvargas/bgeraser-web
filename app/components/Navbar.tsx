@@ -1,5 +1,6 @@
 import Box from "@mui/material/Box";
 import { Logo } from "./Logo";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -12,17 +13,29 @@ export default function Navbar() {
         width: "100%",
       }}
     >
-      <Box
-        sx={{
+      <Link
+        href="/"
+        style={{
           display: "flex",
           margin: "auto",
           justifyContent: "center",
           minHeight: "64px",
-          paddingX: "24px",
+          paddingLeft: "24px",
+          paddingRight: "24px",
         }}
       >
-        <Logo />
-      </Box>
+        <Box
+          sx={{
+            display: "flex",
+            margin: "auto",
+            justifyContent: "center",
+            minHeight: "64px",
+            paddingX: "24px",
+          }}
+        >
+          <Logo />
+        </Box>
+      </Link>
     </Box>
   );
 }
