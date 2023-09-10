@@ -42,10 +42,8 @@ export function UploadCard() {
     e.stopPropagation();
 
     if (e.type === "dragenter" || e.type === "dragover") {
-      console.log("enter|over");
       setDragActive(true);
     } else if (e.type === "dragleave") {
-      console.log("leave");
       setDragActive(false);
     }
   };
