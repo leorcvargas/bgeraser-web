@@ -30,6 +30,7 @@ export function UploadConfirmCard() {
 
   const clear = () => {
     setFile(undefined);
+    setLoading(false);
   };
 
   const handleConfirm = async () => {
@@ -49,9 +50,7 @@ export function UploadConfirmCard() {
     async function createProcess(imageID: string) {
       const res = await fetch(
         `${apiUrl}/images/${imageID}/process/REMOVE_BACKGROUND`,
-        {
-          method: "POST",
-        }
+        { method: "POST" }
       );
 
       const { data } = (await res.json()) as {

@@ -61,9 +61,10 @@ export function ImageProcessCard({ imageProcess }: Props) {
 
   const reset = useCallback(() => {
     setFile(undefined);
+    setLoading(false);
 
     router.push("/");
-  }, [router, setFile]);
+  }, [router, setFile, setLoading]);
 
   useEffect(() => {
     let intervalID: number;

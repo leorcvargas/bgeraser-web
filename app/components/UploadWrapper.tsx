@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Grid } from "@mui/joy";
-import React, { useContext, useEffect, useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import { FileContext } from "../contexts/FileContext";
 import { UploadCard } from "./UploadCard";
 import { UploadConfirmCard } from "./UploadConfirmCard";
@@ -16,12 +16,6 @@ export const UploadWrapper: React.FC = () => {
 
     return <UploadConfirmCard />;
   }, [file]);
-
-  useEffect(() => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-    fetch(`${apiUrl}/ping`).then(console.log);
-  }, []);
 
   return (
     <Box
